@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flower Gallery Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(90deg, rgb(255, 192, 247), rgb(128, 0, 43));
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease-in-out;
+    }
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+
+    .product-card img {
+      max-width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.1rem;
+    }
+
+    .cart {
+      margin: 30px auto;
+      max-width: 600px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .cart a.support-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(90deg, #ff69b4, #8a2be2);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease, opacity 0.2s;
+    }
+    .cart a.support-btn:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .overlay {
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+    .overlay img {
+      display: block;
+      margin: 5% auto;
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 8px;
+    }
+    .overlay span {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      font-size: 40px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    nav .support-btn {
+      padding: 6px 14px;
+      background: linear-gradient(90deg, #ff69b4, #8a2be2);
+      border-radius: 20px;
+      font-weight: bold;
+      color: white;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    nav .support-btn:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+      text-decoration: none;
+    }
+
+    nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  padding: 8px 12px;
+  color: #333;
+}
+
+.support-btn {
+  background: linear-gradient(90deg, #ff69b4, #8a2be2);
+  color: #fff !important;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.subscribe-nav {
+  margin-left: auto; /* pushes it to the far right */
+  display: flex;
+  gap: 5px;
+}
+
+.subscribe-nav input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.subscribe-nav button {
+  padding: 6px 12px;
+  background: linear-gradient(90deg, #8a2be2, #ff69b4);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+  <h1>Edge Flower Gallery</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="Explore Products.html">Explore Products</a>
+    <a href="#" onclick="alert('Tracking coming soon')">Track Shipment</a>
+    <a href="payment.html" class="support-btn">Support Edge</a>
+
+    <!-- Subscribe Form inside Nav -->
+    <form id="subscribe-form" class="subscribe-nav">
+  <input type="email" id="email" name="email" placeholder="Your email" required>
+  <button type="submit">Subscribe</button>
+</form>
+
+<script>
+document.getElementById("subscribe-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+
+  try {
+    const res = await fetch("/subscribe", {  // ✅ relative path
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+    document.getElementById("email").value = "";
+  } catch (err) {
+    alert("Error subscribing");
+    console.error(err);
+  }
+});
+
+</script>
+  </nav>
+</header>
+
+  <main>
+    <h2>All Flowers</h2>
+    <div class="gallery" id="gallery"></div>
+
+    <section class="cart">
+      <h2>Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <!-- Replaced Place Order button with Support Edge -->
+      <a href="payment.html" class="support-btn">Support Edge</a>
+    </section>
+  </main>
+
+  <div id="lightbox" class="overlay">
+    <span onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img">
+  </div>
+
+  <script>
+    const flowerNames = [
+      "YELLOWEEN","CABARET","Capability","Kate","Darcey","Tess","Purity","Leonora",
+      "Patience","Charity","Juliet","Effie","DANCE","Edith","Beatrice","Flower 16","Flower 17",
+      "CALALILY","MARIGOLD","BIRDS OF PARADISE","Mathiola","CASABLANCA LILY","GERBERA",
+      "JUMILA","HYPERICUM","Lisianthus","CARNATION","DELPHINIUM","HYDRANGEA",
+      "Lilium Auratum","Ophelia","Phlox","SUNFLOWER","Foliage","MARIE CLAIRE","Monstera Deliciosa",
+      "Anthurium","Callistemon","Lavender","Limonium","Foliage","Leather Ferns","Moluccella","Kiwi Mellow",
+      "Eucalyptus","SWEETNESS","Rosemary","Ammi Visnaga","Asparagus","Bupleurum","Lepidium","Verona",
+      "Veronica Purpleicious","Ruscus","Gypsophilia","Solidago","Navara","Craspedia","Flower 59","Fillers",
+      "Fillers","Fillers","Antirrhinum","Scabiosa","Celosia","Alstroemeria","Statice","NEWSFLASH",
+      "Dianthus","Limonium Otolepis","Matthiola","Scabiosa","Celosia","Leather Ferns","Limonium Sinuatum","Roses","Flower 77",
+      "HOT BLOOD","CAFÉ DER MAR","MADAM RED","RED ROBBIN","RHODOS","TOP SECRET","EVRER RED",
+      "EXPLORER ROSES","PEGASSO","PROUD","SNOWSTORM","ALBATROS","CONFIDENTIAL ESPANA",
+      "ALPE D'HUEZ - ATHENA - NOVITA","WHAM","REVIVAL","ROSITA VENDELA","SANKARA","SENORITA",
+      "ACE PINK","BOULVERDE","DUCHESSE","ESPERANCE","KINGS DAY","PENNY LANE","MARIYO",
+      "MORANGIE","ORANGE WAVE","OCEAN WAVE","BLUEBERRY","COOL BLUE","DEEP PURPLE","MARITIM",
+      "MISS MARDI","NEW ORLENS","BAHAMA","NIGHTINGALE","MAJIC AVALANCHE","ORIOLE",
+      "BUTTERCUP","CREAM DREAM - LADY SUZANNE","Spray Roses","Flower 120","MIRABEL",
+      "PUSHKIN","RED VELVET","DAYTONA","RED TRENDSETTER","JEANINE","JOSEPHINE","SNOWFLAKES","SNOWY BLOSSOM",
+      "DINARA","LIANNE","ODILIA","SMOOTH","SMOOTH","GOLDEN BIRD","ODILIA","FIREWORKS","REFLEX","SONORA",
+      "SUMMER DANCE","DINARA","LIANNE","YELLOW BABE","MARISSA","GOLDEN BLOSSOM","MOONWALK","TRANTELLA",
+      "ROSANELLA","SOLINERO - SWEET SARA","ODILIA","SMOOTH","AXANA","SILVER SHADOW","YELLOW BABE","BABE",
+      "PICANTO","SILANTOI","SMASHING","LEILA","OCEAN MIKADO","SILVER LACE","Garden Rose","Garden Rose",
+      "Flower 164","April Swirl","Caramel Antike","Orbit","CAMOUFLAGE","Rene Goscinny","Belle Romantica",
+      "Alina Perfumella","Romantic Antike","Princess Sakura","Japanese Tale","Coral Reeva","Innocent","Princess Miyuki",
+      "White Ohara","PINK JOURNEY","Cream Yves Piaget","Ivory Yves Piaget","Vitality","Toulouse Lautrec",
+      "Golden Mustard","Eugenie","Keira","Constance","Miranda","Carey"
+    ];
+
+    const totalFlowers = 200;
+    const baseUrl = "https://raw.githubusercontent.com/Mokereri/webpage/main/Assets/images/";
+    const gallery = document.getElementById("gallery");
+
+    function tryLoadImage(num, callback) {
+      const imgJpeg = new Image();
+      const imgPng = new Image();
+
+      imgJpeg.onload = () => callback(`${baseUrl}flower ${num}.jpeg`);
+      imgJpeg.onerror = () => {
+        imgPng.onload = () => callback(`${baseUrl}flower ${num}.png`);
+        imgPng.onerror = () => console.warn(`Flower ${num} not found`);
+        imgPng.src = `${baseUrl}flower ${num}.png`;
+      };
+
+      imgJpeg.src = `${baseUrl}flower ${num}.jpeg`;
+    }
+
+    for (let i = 1; i <= totalFlowers; i++) {
+      tryLoadImage(i, (imgUrl) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        const name = flowerNames[i - 1] || `Flower ${i}`;
+
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="Photo of ${name} flower" title="${name}" loading="lazy" onclick="openLightbox('${imgUrl}')">
+          <h3>${name}</h3>
+        `;
+        gallery.appendChild(card);
+      });
+    }
+
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightbox.style.display = 'block';
+      lightboxImg.src = src;
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

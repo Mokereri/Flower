@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - International Flower Delivery</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .contact-header {
+            background: lightblue;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .contact-info div {
+            margin-right: 10px;
+        }
+
+        .social-icons a {
+            margin: 0 5px;
+            text-decoration: none;
+        }
+
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header {
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+
+        .hero {
+            background: #003366;
+            padding: 20px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+        }
+
+        .nav-left a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            margin-right: 15px;
+            padding: 5px;
+        }
+
+        .hero-content {
+            background-image: url("C:/Users/user/Desktop/Icons/Garden.jpeg");
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 36px;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+        }
+
+        /* Navigation Dropdowns */
+        .nav-left {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            position: relative;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .dropdown-toggle .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            list-style: none;
+            padding: 10px 0;
+            width: 200px;
+        }
+
+        .nav-left div:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+        }
+
+        .dropdown a:hover {
+            background-color: #333;
+        }
+
+        /* Horizontal Product Dropdown */
+        .dropdown {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        /* Nested Dropdown for Roses */
+        .dropdown .dropdown-roses {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            width: 200px;
+            background-color: #4CAF50;
+            z-index: 1001;
+        }
+
+        .dropdown a:hover .dropdown-roses {
+            display: block;
+        }
+
+        .dropdown-roses a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+        }
+
+        /* Color Options for Roses */
+        .color-options {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: #003366;
+            color: white;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-roses a:hover .color-options {
+            display: block;
+        }
+
+        .color-option {
+            display: block;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .color-option:hover {
+            background-color: #333;
+        }
+
+        /* About Section Styles */
+        .about-section {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .about-section img {
+            width: 300px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .about-content {
+            max-width: 600px;
+        }
+
+        .about-content h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-header">
+        <div class="contact-info">
+            <div>+254 796 824 319</div>
+            <div>edgeflowers@gmail.com</div>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank"><img src="C:/Users/user/Desktop/Icons/facebook.jpeg" alt="Facebook"></a>
+                <a href="https://instagram.com" target="_blank"><img src="C:/Users/user/Desktop/Icons/instagram.jpeg" alt="Instagram"></a>
+                <a href="https://twitter.com" target="_blank"><img src="C:/Users/user/Desktop/Icons/X.jpeg" alt="X"></a>
+                <a href="https://youtube.com" target="_blank"><img src="C:/Users/user/Desktop/Icons/Youtube.png" alt="YouTube"></a>
+                <a href="https://wa.me/254796824319" target="_blank"><img src="C:/Users/user/Desktop/Icons/Whatsapp.png" alt="WhatsApp"></a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="hero">
+            <div class="nav-left">
+                <a href="index.html">Home</a>
+                <div class="dropdown-toggle">About
+                    <div class="dropdown">
+                        <a href="about.html">About Us</a>
+                        <a href="#gallery">Gallery</a>
+                        <a href="#faqs">FAQs</a>
+                    </div>
+                </div>
+                <div class="dropdown-toggle">Products
+                    <div class="dropdown">
+                        <a href="#roses">Roses
+                            <div class="dropdown-roses">
+                                <a href="#single-head">Single Head</a>
+                                <a href="#spray-roses">Spray Roses</a>
+                            </div>
+                        </a>
+                        <a href="#summer-flowers">Summer Flowers</a>
+                        <a href="#foliages">Foliages</a>
+                    </div>
+                </div>
+                <div>Blog</div>
+                <div>Contact</div>
+            </div>
+            <div class="nav-right">
+                <input type="text" class="search-input" placeholder="Search...">
+                <a href="#" class="cta-button">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-content">
+            <h1>About Us</h1>
+            <p>Learn more about our journey and mission</p>
+        </section>
+
+        <section class="about-section">
+            <img src="C:/Users/user/Desktop/Icons/Flower.jpg" alt="Flower Image">
+            <div class="about-content">
+                <h2>About Us</h2>
+                <p>Founded in 2024, Edge Flowers is a leading global partner for wholesale Kenyan flowers.</p>
+                <p>Our vision is to provide fast and reliable delivery of exceptional quality blooms at competitive prices. We are committed to sustainability and strive to shape a greener future while exceeding customer expectations. As your trusted supplier, we offer a wide variety of exquisite floral products, cultivating flourishing partnerships and creating memorable experiences. Hamad Flowers is synonymous with fast, reliable, and affordable wholesale floral excellence.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 International Flower Delivery. All rights reserved.</p>
+    </footer>
+</body>
+</html>
