@@ -1,0 +1,23 @@
+{
+  "name": "flower_blog",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-basic-auth": "^1.2.1",
+    "mysql2": "^3.14.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

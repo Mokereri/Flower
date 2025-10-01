@@ -1,0 +1,48 @@
+# utils/email_template.py
+def render_email_html(flower_name: str, image_url: str, description: str, ideal_uses: list[str], support_url: str) -> str:
+    ideal_uses_html = "".join(f"<li>{u}</li>" for u in ideal_uses)
+    return f"""
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{flower_name} — Edge Flower Blog</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f7f7fb;font-family:Arial,Helvetica,sans-serif;color:#222;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f7f7fb;padding:20px 0;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);">
+            <tr>
+              <td style="background:linear-gradient(90deg,#ffc0f7,#80002b);padding:18px 24px;color:#fff;">
+                <h1 style="margin:0;font-size:22px;">Edge Flower Blog — Weekly</h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 24px;">
+                <h2 style="margin:0 0 12px 0;font-size:20px;">{flower_name}</h2>
+                <img src="{image_url}" alt="{flower_name}" style="max-width:100%;border-radius:10px;display:block;margin:10px 0;">
+                <p style="line-height:1.5;">{description}</p>
+                <h3 style="margin-top:18px;">Ideal Uses</h3>
+                <ul style="padding-left:18px;line-height:1.6;margin-top:8px;">
+                  {ideal_uses_html}
+                </ul>
+                <p style="margin-top:18px;line-height:1.6;">Thanks for subscribing! See you next week 🌸</p>
+                <p style="margin-top:18px;">
+                  <a href="{support_url}"
+                     style="display:inline-block;background:linear-gradient(90deg,#ff69b4,#8a2be2);color:#fff;text-decoration:none;padding:10px 16px;border-radius:8px;font-weight:bold;">
+                     Support Edge
+                  </a>
+                </p>
+                <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+                <p style="font-size:12px;color:#666;">You’re receiving this because you subscribed at Edge Flower Gallery.
+                <br>Don’t want these? <a href="{{{{unsubscribe_link}}}}" style="color:#8a2be2;">Unsubscribe</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"""
