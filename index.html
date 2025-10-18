@@ -920,6 +920,342 @@
         </section>
         
     </main>
+<!-- Testimonials Section -->
+<style>
+    /* Add styles for the testimonials section */
+    .testimonials {
+        margin: 40px 0;
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .testimonials h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-align: center; 
+    }
+
+    .testimonials h2 span:first-child {
+        font-weight: normal;
+        display: block;
+        font-size: 1.8rem;
+    }
+
+    .testimonials h2 span:last-child {
+        font-weight: bold;
+        display: block;
+        font-size: 1.2rem;
+        margin-top: 5px;
+    }
+
+    /* Container setup for two testimonials at a time */
+    .testimonials-container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        height: 200px;
+    }
+
+    .testimonial-pair {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .testimonial {
+        width: 48%;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
+        color: #333;
+        text-align: left;
+    }
+
+    /* Animation to loop smoothly between pairs */
+    .testimonial-pair:nth-child(1) {
+        animation: fadeInOut 100s infinite;
+        animation-delay: 0s;
+    }
+
+    .testimonial-pair:nth-child(2) {
+        animation: fadeInOut 100s infinite;
+        animation-delay: 25s;
+    }
+
+    .testimonial-pair:nth-child(3) {
+        animation: fadeInOut 100s infinite;
+        animation-delay: 50s;
+    }
+
+    .testimonial-pair:nth-child(4) {
+        animation: fadeInOut 100s infinite;
+        animation-delay: 75s;
+    }
+
+    .testimonial-pair:nth-child(5) {
+        animation: fadeInOut 100s infinite;
+        animation-delay: 100s;
+    }
+
+    @keyframes fadeInOut {
+        0%, 100% {
+            opacity: 0;
+            visibility: hidden;
+        }
+        5%, 45% {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+</style>
+
+<section class="testimonials">
+    <h2>
+        <span>Testimonials</span>
+        <span>What clients say about us</span>
+    </h2>
+    <div class="testimonials-container">
+        <!-- Pair 1 -->
+        <div class="testimonial-pair">
+            <div class="testimonial">"Edge Flowers exceeded our expectations. Their flowers were fresh, vibrant, and delivered on time, which made our event truly memorable. I highly recommend their services for any occasion." - Jane, Client USA</div>
+            <div class="testimonial">"The roses we received were absolutely stunning, and our clients couldn't stop complimenting them. Edge Flowers is reliable, professional, and ensures the highest quality every single time." - Peter, Client UK</div>
+        </div>
+
+        <!-- Pair 2 -->
+        <div class="testimonial-pair">
+            <div class="testimonial">"Amazing customer service, excellent quality flowers, and prompt delivery. I’ve worked with other suppliers before, but Edge Flowers stands out. Their attention to detail is unmatched." - Maria, Client Lebanon</div>
+            <div class="testimonial">"I’ve been in the flower business for years, and Edge Flowers is the best exporter I’ve partnered with. Their reliability and flower quality have greatly boosted my business." - Ahmad, Client Lebanon</div>
+        </div>
+
+        <!-- Pair 3 -->
+        <div class="testimonial-pair">
+            <div class="testimonial">"Their flowers are always fresh, their deliveries are always on time, and the team is friendly and helpful. I appreciate their professionalism and look forward to working with them again." - Muhammad, Client Iran</div>
+            <div class="testimonial">"Edge Flowers consistently delivers high-quality flowers. The packaging is perfect, and their team is always available to help with any queries. A wonderful experience overall." - Fatima, Client UAE</div>
+        </div>
+
+        <!-- Pair 4 -->
+        <div class="testimonial-pair">
+            <div class="testimonial">"The flowers from Edge Flowers are always top-notch. Their service is consistent, and I never have to worry about delays or quality. I highly recommend them." - Karim, Client Algeria</div>
+            <div class="testimonial">"Edge Flowers has been my go-to supplier for years. Their professionalism, prompt delivery, and quality of flowers have helped my business grow significantly." - David, Client S.A.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Us Section -->
+<style>
+    /* Add styles for the contact section */
+    .contact-us {
+        margin: 40px 0;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .contact-us h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .contact-us h2 span:first-child {
+        font-weight: normal;
+        display: block;
+        font-size: 1.8rem;
+    }
+
+    .contact-us h2 span:last-child {
+        font-weight: bold;
+        display: block;
+        font-size: 1.2rem;
+        margin-top: 5px;
+    }
+
+    /* Container for form and image */
+    .contact-us-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    /* Form section */
+    .contact-form {
+        width: 48%; /* Ensuring both sides take equal space */
+        text-align: left;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+
+    .contact-form textarea {
+        height: 150px;
+        resize: vertical;
+    }
+
+    /* Image section */
+    .contact-image {
+        width: 48%; /* Ensuring both sides take equal space */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contact-image img {
+        max-width: 80%;
+        height: 80%;
+        border-radius: 6px;
+    }
+
+</style>
+
+<section class="contact-us">
+    <h2>
+        <span>Contact Us</span>
+        <span>Let us know how we can serve you better</span>
+    </h2>
+
+    <div class="contact-us-container">
+        <div class="contact-form">
+            <form id="contactForm">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="form-group">
+                            <input type="text" name="name" id="name" class="form-control" required placeholder="Your Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" class="form-control" required placeholder="Your Email" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="form-group">
+                            <input type="text" name="phone_number" id="phone_number" required class="form-control" placeholder="Your Phone" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="form-group">
+                            <input type="text" name="msg_subject" id="msg_subject" class="form-control" required placeholder="Subject" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <textarea name="message" class="form-control" id="message" cols="30" rows="5" required placeholder="Your Message"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <button type="submit" class="default-btn page-btn box-btn">
+                            Submit
+                        </button>
+                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </form>     
+            <div id="notification"></div>
+        </div>
+        
+        <!-- Image on the right -->
+        <div class="contact-image">
+            <img src="https://github.com/Mokereri/webpage/blob/main/Assets/icons/call-icon-1023x1024-7i32yqt3.png?raw=true" alt="Call Icon" />
+        </div>
+    </div>
+</section>
+    </div>
+</section>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Get form values
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone_number").value;
+    const subject = document.getElementById("msg_subject").value;
+    const message = document.getElementById("message").value;
+
+    // Brevo API Key (Replace with your actual API Key)
+    const BREVO_API_KEY = "xsmtpsib-8443f0541e5a01bf9f74c1d795aeb212e21553dfa4427b8b26945361d1826ff2-L6P8vBUqEky1n0WS";
+
+    // Create the email payload
+    const emailData = {
+        sender: { name: name, email: email },
+        to: [{ email: "mokererikelvin2017@gmail.com", name: "Admin" }],
+        subject: subject,
+        htmlContent: `<p><strong>Name:</strong> ${name}</p>
+                      <p><strong>Email:</strong> ${email}</p>
+                      <p><strong>Phone:</strong> ${phone}</p>
+                      <p><strong>Message:</strong> ${message}</p>`
+    };
+
+    try {
+        const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "api-key": BREVO_API_KEY
+            },
+            body: JSON.stringify(emailData)
+        });
+
+        if (response.ok) {
+            document.getElementById("notification").innerHTML = 
+                "<p style='color: green;'>Message Sent Successfully!</p>";
+            document.getElementById("contactForm").reset();
+        } else {
+            document.getElementById("notification").innerHTML = 
+                "<p style='color: red;'>Failed to Send Message.</p>";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("notification").innerHTML = 
+            "<p style='color: red;'>An error occurred.</p>";
+    }
+});
+</script>
+
+    <footer>
+        <p>&copy; 2025 International Flower Delivery. All rights reserved. Get back soon.</p>
+    </footer>
+
+    <script>
+        // Show dropdown on hover
+        document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
+            element.addEventListener('mouseenter', function() {
+                this.querySelector('.dropdown').classList.add('show');
+            });
+
+            element.addEventListener('mouseleave', function() {
+                this.querySelector('.dropdown').classList.remove('show');
+            });
+        });
+    </script>
 
     <!-- Footer -->
     <footer>
@@ -930,7 +1266,7 @@
             </div>
 
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4>Navigate To</h4>
                 <a href="index.html">Home</a>
                 <a href="#about-us">About Us</a>
                 <a href="#products">Products</a>
@@ -940,7 +1276,7 @@
 
             <div class="footer-section">
                 <h4>Contact Info</h4>
-                <p>Email: info@edgeflowers.com</p>
+                <p>Email: molvinpetals@gmail.com</p>
                 <p>Phone: 0796 824 319</p>
                 <p>Location: Nairobi, Kenya</p>
                 <p>Available 24/7 for wholesale inquiries.</p>
