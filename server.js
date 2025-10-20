@@ -1,117 +1,91 @@
-import express from "express";
-import { Pool } from "pg"; // ⬅️ Using PostgreSQL client
-import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
+import express from 'express';
+import { Pool } from 'pg';
+import cors from 'cors';
+import dotenv from 'dotenv';
+// import { sendSubscriptionEmail } from './emailService.js'; // Assuming you have this
 
-// --- Configuration (Read from Environment Variables) ---
-// Note: The deployment environment (like Render) handles loading these variables.
-const allowedOrigin = process.env.CORS_ALLOWED_ORIGIN || "https://edgeflowers.netlify.app";
-const PORT = process.env.PORT || 3000;
+dotenv.config();
 
-// PostgreSQL Connection Configuration
-const pool = new Pool({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    // Ensure port is parsed as an integer, defaulting to 5432
-    port: parseInt(process.env.PG_PORT || '5432', 10),
-    // Necessary for secure connection to many cloud database hosts
-    ssl: {
-        rejectUnauthorized: false 
-    }
-});
+// Configuration for pg Pool using individual environment variables
+const poolConfig = {
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
+    // *** CRITICAL RENDER SSL SETTING ***
+    ssl: {
+        rejectUnauthorized: false
+    }
+};
+
+// Check if a full DATABASE_URL is available (best practice)
+const connectionString = process.env.DATABASE_URL;
+
+const pool = connectionString 
+    ? new Pool({ connectionString, ssl: { rejectUnauthorized: false } }) // Use URL if available
+    : new Pool(poolConfig); // Otherwise use individual config
+
+// Test Database Connection
+pool.query('SELECT 1 + 1 AS result')
+    .then(res => {
+        console.log(`✅ Database connection successful! Result: ${res.rows[0].result}`);
+    })
+    .catch(err => {
+        console.error('❌ Database connection failed:', err);
+        // This is where you see the ECONNREFUSED error
+    });
 
 const app = express();
+const port = process.env.PORT || 3000;
+const allowedOrigin = process.env.CORS_ALLOWED_ORIGIN;
 
-// ✅ Handle __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// --- CORS Configuration ---
 app.use(cors({
-    origin: allowedOrigin,
-    methods: ["POST", "GET"], 
-    credentials: true
+    origin: allowedOrigin
 }));
-
-app.use(express.json()); // Middleware to parse JSON bodies
-
-// --- Database Connection Test ---
-pool.connect((err, client, release) => {
-    if (err) {
-        console.error("❌ Database connection failed:", err.stack);
-    } else {
-        console.log("✅ Connected to PostgreSQL Database");
-        release(); 
-    }
-});
+app.use(express.json());
 
 
-// --- API Endpoints ---
+// ----------------------------------------------------
+// Endpoints
+// ----------------------------------------------------
 
-/**
- * Handles newsletter subscription, inserting the email into the PostgreSQL
- * 'subscribers' table while preventing duplicates.
- */
-app.post("/subscribe", async (req, res) => {
-    const { email } = req.body;
+app.post('/subscribe', async (req, res) => {
+    const { email } = req.body;
 
-    if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-    }
-
-    // PostgreSQL uses $1 for parameterized queries. 
-    // ON CONFLICT (email) DO NOTHING prevents duplicate entries if 'email' has a UNIQUE constraint.
-    const query = 'INSERT INTO subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING id';
+    if (!email) {
+        return res.status(400).json({ success: false, message: 'Email is required.' });
+    }
 
     try {
-        const result = await pool.query(query, [email]);
+        const result = await pool.query(
+            'INSERT INTO subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING *',
+            [email]
+        );
 
         if (result.rowCount === 0) {
-            // No row inserted means the email already exists
-            return res.status(409).json({ message: "You’re already subscribed!" });
+             return res.status(409).json({ success: false, message: 'Email already subscribed.' });
         }
+        
+        // Assuming email service is set up
+        // await sendSubscriptionEmail(email); 
 
-        res.json({ message: "Thanks for subscribing to Edge Flower Gallery!" });
-
-    } catch (err) {
-        console.error("Subscription Error:", err);
-        return res.status(500).json({ message: "Database error during subscription." });
+        res.status(200).json({ success: true, message: 'Subscription successful!' });
+    } catch (error) {
+        console.error('Subscription error:', error); 
+        // We will now see a more specific error than just ECONNREFUSED if the connection works.
+        res.status(500).json({ success: false, message: 'Error subscribing. Please try again later.' });
     }
 });
 
-/**
- * Retrieves all subscribers (Internal/Admin use).
- */
-app.get("/subscribers", async (req, res) => {
-    const query = "SELECT id, email, created_at FROM subscribers ORDER BY created_at DESC";
-    
-    try {
-        // pool.query returns results in the 'rows' property
-        const result = await pool.query(query);
-        res.json(result.rows); 
-
-    } catch (err) {
-        console.error("Fetch Subscribers Error:", err);
-        return res.status(500).json({ message: "Database error" });
-    }
+// Admin Route (Needs 'admin.html' in public folder, or remove)
+app.get('/admin', (req, res) => {
+    // NOTE: This assumes you fixed the ENOENT error by creating public/admin.html
+    // If you don't need this, remove it to prevent the ENOENT error.
+    res.sendFile('admin.html', { root: './public' });
 });
 
-// --- Static File Serving & Server Start ---
-
-// Serve static files (like admin.html) from /public
-app.use(express.static(path.join(__dirname, "public")));
-
-// Default route 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "admin.html"));
-});
-
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`CORS allowed origin: ${allowedOrigin}`);
+app.listen(port, () => {
+    console.log(`🚀 Server running on port ${port}`);
+    console.log(`CORS allowed origin: ${allowedOrigin}`);
 });
