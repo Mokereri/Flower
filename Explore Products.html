@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flower Gallery Store</title>
+
+  <!-- ✅ Google Analytics 4 Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZ633WX0Y7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MZ633WX0Y7', {
+      send_page_view: true,
+      anonymize_ip: true
+    });
+  </script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -138,88 +151,65 @@
     }
 
     nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 15px;
-}
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+    }
 
-nav a {
-  text-decoration: none;
-  padding: 8px 12px;
-  color: #333;
-}
+    nav a {
+      text-decoration: none;
+      padding: 8px 12px;
+      color: #333;
+    }
 
-.support-btn {
-  background: linear-gradient(90deg, #ff69b4, #8a2be2);
-  color: #fff !important;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-weight: bold;
-}
+    .support-btn {
+      background: linear-gradient(90deg, #ff69b4, #8a2be2);
+      color: #fff !important;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
 
-.subscribe-nav {
-  margin-left: auto; /* pushes it to the far right */
-  display: flex;
-  gap: 5px;
-}
+    .subscribe-nav {
+      margin-left: auto;
+      display: flex;
+      gap: 5px;
+    }
 
-.subscribe-nav input {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
+    .subscribe-nav input {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
 
-.subscribe-nav button {
-  padding: 6px 12px;
-  background: linear-gradient(90deg, #8a2be2, #ff69b4);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
+    .subscribe-nav button {
+      padding: 6px 12px;
+      background: linear-gradient(90deg, #8a2be2, #ff69b4);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
+
 <body>
   <header>
-  <h1>Edge Flower Gallery</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="Explore Products.html">Explore Products</a>
-    <a href="#" onclick="alert('Tracking coming soon')">Track Shipment</a>
-    <a href="payment.html" class="support-btn">Support Edge</a>
+    <h1>Edge Flower Gallery</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="Explore Products.html">Explore Products</a>
+      <a href="#" onclick="alert('Tracking coming soon')">Track Shipment</a>
+      <a href="payment.html" class="support-btn" id="support-edge-btn">Support Edge</a>
 
-    <!-- Subscribe Form inside Nav -->
-    <form id="subscribe-form" class="subscribe-nav">
-  <input type="email" id="email" name="email" placeholder="Your email" required>
-  <button type="submit">Subscribe to our Newsletter</button>
-</form>
-
-<script>
-document.getElementById("subscribe-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-
-  try {
-    const res = await fetch("/subscribe", {  // ✅ relative path
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-
-    const data = await res.json();
-    alert(data.message);
-    document.getElementById("email").value = "";
-  } catch (err) {
-    alert("Error subscribing");
-    console.error(err);
-  }
-});
-
-</script>
-  </nav>
-</header>
+      <!-- Subscribe Form inside Nav -->
+      <form id="subscribe-form" class="subscribe-nav">
+        <input type="email" id="email" name="email" placeholder="Your email" required>
+        <button type="submit">Subscribe to our Newsletter</button>
+      </form>
+    </nav>
+  </header>
 
   <main>
     <h2>All Flowers</h2>
@@ -228,8 +218,7 @@ document.getElementById("subscribe-form").addEventListener("submit", async (e) =
     <section class="cart">
       <h2>Your Cart</h2>
       <ul id="cart-items"></ul>
-      <!-- Replaced Place Order button with Support Edge -->
-      <a href="payment.html" class="support-btn">Support Edge</a>
+      <a href="payment.html" class="support-btn" id="cart-support-btn">Support Edge</a>
     </section>
   </main>
 
@@ -292,24 +281,83 @@ document.getElementById("subscribe-form").addEventListener("submit", async (e) =
         card.className = "product-card";
         const name = flowerNames[i - 1] || `Flower ${i}`;
 
+        // ✅ Track each flower being displayed (view_item)
+        gtag('event', 'view_item', {
+          item_id: `flower_${i}`,
+          item_name: name,
+          item_category: 'flower'
+        });
+
         card.innerHTML = `
-          <img src="${imgUrl}" alt="Photo of ${name} flower" title="${name}" loading="lazy" onclick="openLightbox('${imgUrl}')">
+          <img src="${imgUrl}" alt="Photo of ${name} flower" title="${name}" 
+               loading="lazy" onclick="trackFlowerClick('${name}', '${imgUrl}')">
           <h3>${name}</h3>
         `;
         gallery.appendChild(card);
       });
     }
 
+    // ✅ Track flower clicks
+    function trackFlowerClick(name, src) {
+      gtag('event', 'select_item', {
+        item_name: name,
+        item_category: 'flower'
+      });
+      openLightbox(src);
+    }
+
+    // ✅ Track Add to Cart or Support button clicks
+    document.getElementById('cart-support-btn').addEventListener('click', () => {
+      gtag('event', 'add_to_cart', {
+        event_category: 'cart',
+        event_label: 'Support Edge - Cart Section'
+      });
+    });
+
+    document.getElementById('support-edge-btn').addEventListener('click', () => {
+      gtag('event', 'add_to_cart', {
+        event_category: 'cart',
+        event_label: 'Support Edge - Navbar'
+      });
+    });
+
+    // ✅ Lightbox controls
     function openLightbox(src) {
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
       lightbox.style.display = 'block';
       lightboxImg.src = src;
     }
+
     function closeLightbox() {
       document.getElementById('lightbox').style.display = 'none';
     }
+
+    // ✅ Newsletter subscription tracking
+    document.getElementById("subscribe-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+
+      try {
+        const res = await fetch("/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+        alert(data.message);
+        document.getElementById("email").value = "";
+
+        gtag('event', 'generate_lead', {
+          method: 'newsletter_subscription'
+        });
+
+      } catch (err) {
+        alert("Error subscribing");
+        console.error(err);
+      }
+    });
   </script>
 </body>
 </html>
-
