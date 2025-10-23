@@ -713,6 +713,14 @@
     </style>
     <!-- Include Inter font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZ633WX0Y7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MZ633WX0Y7');
+    </script>
 </head>
 <body>
 
@@ -1336,6 +1344,27 @@ document.getElementById("contactForm").addEventListener("submit", async function
     </script>
 </body>
 </html>
+
+<script>
+  // Track clicks on buttons
+  document.addEventListener("click", function(event) {
+    if (event.target.tagName === "BUTTON") {
+      gtag("event", "button_click", {
+        event_category: "interaction",
+        event_label: event.target.innerText
+      });
+    }
+  });
+
+  // Track page scroll depth (basic)
+  window.addEventListener("scroll", function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      gtag("event", "page_scrolled_to_bottom", {
+        event_category: "engagement"
+      });
+    }
+  });
+</script>
 
 
 
